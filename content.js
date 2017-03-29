@@ -22,11 +22,10 @@ InboxSDK.load('1.0', 'Encrypt').then(function(sdk){
 
 				var MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
 				var EncryptionResult = cryptico.encrypt(message, MattsPublicKeyString);
-				var hold = JSON.stringify(EncryptionResult);
 
-				event.composeView.insertTextIntoBodyAtCursor(hold.cipher);
+				event.composeView.setBodyText(EncryptionResult.cipher);
 
-				console.log(EncryptionResult.toString())
+				console.log(EncryptionResult.cipher);
 			},
 		});
 
