@@ -1,4 +1,4 @@
-InboxSDK.load('2', 'Encrypt').then(function(sdk){
+InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 
 	// the SDK has been loaded, now do something with it!
 	sdk.Compose.registerComposeViewHandler(function(composeView){
