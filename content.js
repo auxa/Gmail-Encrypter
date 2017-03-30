@@ -1,3 +1,8 @@
+chrome.runtime.sendMessage({
+    'title': document.title,
+    'url': window.location.href,
+    'summary': window.getSelection().toString()
+});
 InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 
 	// the SDK has been loaded, now do something with it!
