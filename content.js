@@ -25,7 +25,7 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 		});
 		composeView.addButton({
 			title: "Decrypt",
-			iconUrl: 'https://cdn1.iconfinder.com/data/icons/hawcons/32/698630-icon-114-lock-128.png',
+			iconUrl: 'https://cdn3.iconfinder.com/data/icons/web-and-internet-icons/512/Unlock-512.png',
 			onClick: function(event) {
 				var message = composeView.getTextContent();
 				var Decrypt = cryptico.decrypt(message, MattsRSAkey);

@@ -2,9 +2,10 @@
   "name": "Gmail Extension",
   "description": "sdk_auxaE_cc24e4dfd8",
   "version": "0.1",
-  "browser_action":{
-    "default_icon":"encrypt.png"
-  },
+  "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "index.html"
+    },
   "content_scripts": [
     {
       "matches": [
