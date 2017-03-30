@@ -1,14 +1,27 @@
-chrome.runtime.sendMessage({
-    'title': document.title,
-    'url': window.location.href,
-    'summary': window.getSelection().toString()
-});
+var xhr = new XMLHttpRequest();
+var resp;
+	xhr.open("GET", "http://jf.netsoc.ie/keys.json", true);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4) {
+			// innerText does not let the attacker inject HTML elements.
+			 resp = JSON.parse(xhr.responseText);
+		}
+	}
+	xhr.send();
+
 InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 
 	// the SDK has been loaded, now do something with it!
 	sdk.Compose.registerComposeViewHandler(function(composeView){
-
+		var receiver =composeView.getToRecipients();
+		console.log(receiver[0].emailAddress);
 		var PassPhrase = "Passphrase";
+		for(var i =0; i< resp.keys.length; i++){
+			if(resp.keys[i].id ==receiver[0].emailAddress){
+				PassPhrase= receiver[0].pub_key;
+				console.log(receiver[0].pub_key);
+			}
+		}
 		// The length of the RSA key, in bits.
 		var Bits = 1024;
 		var MattsRSAkey = cryptico.generateRSAKey(PassPhrase, Bits);
@@ -21,6 +34,9 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 			onClick: function(event) {
 
 				var message = composeView.getTextContent();
+				console.log(receiver);
+
+
 
 				var EncryptionResult = cryptico.encrypt(message, MattsPublicKeyString, MattsRSAkey);
 

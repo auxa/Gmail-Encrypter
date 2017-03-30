@@ -1,0 +1,25 @@
+lc(KB, X) :- logCon(X,KB), member(X,C).
+
+
+logCon(C, KB):- logCon([], C, KB).
+
+logCon(Hold, C, KB) :- member([H|B], KB), 
+						checkTrue(B, Hold),
+						notItself(H,Hold), 
+						logCon([H|Hold], C, KB).
+logCon(C,C,_).
+
+notItself(_,[]).
+notItself(X, [H|T]) :- X\=H, notItself(X,T).
+
+checkTrue([], _).
+checkTrue([H|T], Logiquence) :- member(H, Logiquence), checkTrue(T, Logiquence).
+
+
+queryRule([H|T], KB) :- lc(KB, R), !, partOf(R, H).
+
+partOf([],[_]) :- false.
+partOf([H|T], Q) :- H==Q -> true ; partOf(T,Q).
+
+
+

@@ -1,10 +1,8 @@
-// This function is called onload in the popup code
-function getPageDetails(callback) {
-    // Inject the content script into the current page
-    chrome.tabs.executeScript(null, { file: 'content.js' });
-    // Perform the callback when a message is received from the content script
-    chrome.runtime.onMessage.addListener(function(message)  {
-        // Call the callback function
-        callback(message);
-    });
-};
+var fs = require('fs');
+var bb;
+fs.readFile('./keys.json', 'utf-8', function(err, data){
+				if(err) throw err;
+				var i;
+				 bb = JSON.parse(data);
+         console.log(bb);
+       });
