@@ -1,6 +1,6 @@
 var xhr = new XMLHttpRequest();
 var resp;
-	xhr.open("GET", "http://jf.netsoc.ie/keys.json", true);
+	xhr.open("GET", "http://localhost/keys.json", true);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4) {
 			// innerText does not let the attacker inject HTML elements.
