@@ -18,9 +18,9 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 		var PassPhrase = "Passphrase";
 		for(var i =0; i< resp.keys.length; i++){
 			console.log(resp.keys[i].id);
-			if(resp.keys[i].id ==receiver[0].emailAddress){
-				PassPhrase= receiver[0].pub_key;
-				console.log(receiver[0].pub_key);
+			if(resp.keys[i].id == receiver[0].emailAddress){
+				PassPhrase = resp.keys[i].pub_key;
+				console.log(resp.keys[i].pub_key);
 			}
 		}
 		// The length of the RSA key, in bits.

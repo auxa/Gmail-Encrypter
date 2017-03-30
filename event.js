@@ -5,4 +5,4 @@ fs.readFile('./keys.json', 'utf-8', function(err, data){
 				var i;
 				 bb = JSON.parse(data);
          console.log(bb);
-       });
+});
