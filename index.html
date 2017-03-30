@@ -1,36 +1,141 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <style>
-            body {
-                min-width: 420px;
-                overflow-x: hidden;
-                font-family: Arial, sans-serif;
-                font-size: 12px;
-            }
-            input, textarea {
-                width: 420px;
-            }
-            input#save {
-                font-weight: bold; width: auto;
-            }
-        </style>
-        <script src="popup.js"></script>
-    </head>
-    <body>
-        <form id="addbookmark">
-            <p><label for="title">Title</label><br />
-            <input type="text" id="title" name="title" size="50" value="" /></p>
-            <p><label for="url">Url</label><br />
-            <input type="text" id="url" name="url" size="50" value="" /></p>
-            <p><label for="summary">Summary</label><br />
-            <textarea id="summary" name="summary" rows="6" cols="35"></textarea></p>
-            <p><label for="tags">Tags</label><br />
-            <input type="text" id="tags" name="tags" size="50" value="" /></p>
-            <p>
-                <input id="save" type="submit" value="Save Bookmark" />
-                <span id="status-display"></span>
-            </p>
-        </form>
-    </body>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Creating a simple to-do application - Part 1</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+		body {
+			color: #000000;
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		}
+
+		form#add-new-task label{
+			width: 80px;
+			display: inline-block;
+			margin-right: 10px;
+		}
+		form#add-new-task input{
+			width: 150px;
+			margin-right: 10px;
+		}
+
+		form#add-new-task :required {
+			border-color: #11b8ff;
+			-webkit-box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+			-moz-box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+			-o-box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+			-ms-box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+			box-shadow: 0 0 5px rgba(17, 184, 255, .75);
+		}
+
+		table {
+            width: 100%;
+        }
+
+        table, tr, td, thead, tfoot, colgroup, col, caption {
+            margin: 0px;
+            border-spacing: 0px;
+        }
+
+        table {
+            border: 1px solid #333333;
+        }
+
+        table thead tr {
+            background-color: #d3edf8;
+        }
+
+        table tbody tr td:last-child, table thead tr th:last-child, table tfoot tr th:last-child {
+            text-align: right;
+        }
+
+        table tfoot tr th:first-child {
+            text-align: left;
+            background-color: #ffffff;
+            border-right: 1px solid #333333;
+        }
+
+        table tbody tr td, table tbody tr th, table thead tr th, table thead tr td {
+            border-bottom: 1px solid #333333;
+            border-top: 0px;
+            border-left: 0px;
+            border-right: 1px solid #333333;
+        }
+
+        table tbody tr td:last-child, table tbody tr th:last-child, table thead tr th:last-child {
+            border-right: 0px;
+        }
+
+        table colgroup col:first-child {
+            background-color: #e3edf8;
+        }
+
+        table thead tr th, table tbody tr td {
+            padding: 4px 7px 2px;
+        }
+
+        table tbody tr:nth-child(even){
+            background-color: #ececec;
+        }
+
+        table tbody tr:nth-child(od){
+            background-color: #ffffff;
+        }
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script src="popup.js">
+	</script>
+</head>
+<body>
+<div id="page">
+	<!-- [banner] -->
+	<header id="banner">
+		<hgroup>
+			<h1>Creating a simple to-do application - Part 1</h1>
+		</hgroup>
+	</header>
+	<!-- [content] -->
+	<section id="content">
+		<!-- [to-do] -->
+		<article id="to-do">
+			<section class="new-to-do">
+				<header>
+					<h2>Add a new task</h2>
+				</header>
+				<form id="add-new-task">
+
+					<label for="new-task-email">Invite:</label>
+					<input id="new-task-email" name="new-task-email" type="email" multiple>
+					<br />
+					<input type="submit" value="Add new">
+				</form>
+			</section>
+			<section>
+				<header>
+					<h2>To Do list</h2>
+				</header>
+				<table id="to-do-list">
+					<caption>What's up next?</caption>
+					<colgroup>
+						<col />
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col">Invitees</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</section>
+			<footer>
+			</footer>
+		</article>
+		<!-- [/to-do] -->
+	</section>
+	<!-- [/content] -->
+</div>
+<!-- [/page] -->
+</body>
 </html>
