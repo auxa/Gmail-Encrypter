@@ -12,18 +12,22 @@ var resp;
 InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 
 	sdk.Conversations.registerThreadViewHandler(function(threadView){
-		var temp123 = threadView.getSender();
+		var body = '';
+		var sender ='';
+
 
 		var el = document.createElement("div");
-		el.innerHTML = 'Hello world! ' + temp123;
 
-
+	 body = threadView.getMessageViews();
+		el.innerHTML = 'Hello world! ' + body + " " + sender;
 		threadView.addSidebarContentPanel({
-			title: 'Sidebar Example',
+			title: 'Decrypt',
 			el: el
 		});
-
+		console.log(body);
+		console.log(sender);
 	});
+
 	// the SDK has been loaded, now do something with it!
 	sdk.Compose.registerComposeViewHandler(function(composeView){
 
