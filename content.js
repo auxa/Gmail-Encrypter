@@ -14,17 +14,17 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 	sdk.Conversations.registerThreadViewHandler(function(threadView){
 		var body = '';
 		var sender ='';
-
+		var xer;
 
 		var el = document.createElement("div");
+		 xer = threadView.getMessageViews();
 
-	 body = threadView.getMessageViews();
 		el.innerHTML = 'Hello world! ' + body + " " + sender;
 		threadView.addSidebarContentPanel({
 			title: 'Decrypt',
 			el: el
 		});
-		console.log(body);
+		console.log(xer[0].getSender());
 		console.log(sender);
 	});
 
