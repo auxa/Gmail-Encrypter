@@ -25,7 +25,11 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 			el: el
 		});
 		console.log(xer[0].getSender());
-		console.log(sender);
+		console.log(xer[0].getBodyElement());
+		var parse = new DOMParser();
+		var doc = parse.parseFromString(xer[0].getBodyElement(), "text/html");
+		var string = doc.getElementsByTagName("body");
+		console.log(string);
 	});
 
 	// the SDK has been loaded, now do something with it!
