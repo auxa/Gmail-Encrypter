@@ -15,12 +15,13 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 	sdk.Compose.registerComposeViewHandler(function(composeView){
 		var receiver =composeView.getToRecipients();
 		console.log(receiver[0].emailAddress);
-		var PassPhrase = "Passphrase";
+		var PassPhrase = "";
 		for(var i =0; i< resp.keys.length; i++){
-			console.log(resp.keys[i].id);
-			if(resp.keys[i].id == receiver[0].emailAddress){
+			if(resp.keys[i].id != null && resp.keys[i].id == receiver[0].emailAddress){
+				console.log('logging id '+ resp.keys[i].id);
 				PassPhrase = resp.keys[i].pub_key;
-				console.log(resp.keys[i].pub_key);
+				console.log('logging publicKeyString ' +resp.keys[i].pub_key);
+				break;
 			}
 		}
 		// The length of the RSA key, in bits.

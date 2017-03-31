@@ -1,0 +1,16 @@
+{
+  "name": "jsonUpdate",
+  "version": "1.0.1",
+  "description": "JSON Update",
+  "main": "updatejson.js",
+  "scripts": {
+    "test": "No tests",
+    "start": "node updatejson.js"
+  },
+  "author": "me",
+  "license": "ISC",
+  "dependencies": {
+    "mime": "^1.3.4",
+    "url": "^0.11.0"
+  }
+}
