@@ -26,10 +26,25 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 		});
 		console.log(xer[0].getSender());
 		console.log(xer[0].getBodyElement());
-		var parse = new DOMParser();
-		var doc = parse.parseFromString(xer[0].getBodyElement(), "text/html");
-		var string = doc.getElementsByTagName("body");
-		console.log(string);
+		var bob123 = xer[0].getBodyElement();
+		var ten = bob123.innerHTML;
+		var first = ten.indexOf("ltr") + 5;
+
+		ten = ten.slice(first);
+
+		first = ten.indexOf("</div><div") ;
+		ten = ten.substring(0, first);
+
+		var message = ten;
+		var Decrypt = cryptico.decrypt(message, MattsRSAkey);
+		event.composeView.setBodyText(Decrypt.plaintext);
+		console.log(first);
+
+
+
+		console.log(ten);
+
+
 	});
 
 	// the SDK has been loaded, now do something with it!
@@ -54,6 +69,7 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 				// The length of the RSA key, in bits.
 				var Bits = 1024;
 				var MattsRSAkey = cryptico.generateRSAKey(PassPhrase, Bits);
+				console.log(MattsRSAkey);
 				var MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
 
 				var message = composeView.getTextContent();
@@ -71,9 +87,7 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 			title: "Decrypt",
 			iconUrl: 'https://cdn3.iconfinder.com/data/icons/web-and-internet-icons/512/Unlock-512.png',
 			onClick: function(event) {
-				var message = composeView.getTextContent();
-				var Decrypt = cryptico.decrypt(message, MattsRSAkey);
-				event.composeView.setBodyText(Decrypt.plaintext);
+
 
 								console.log(Decrypt);
 							},
