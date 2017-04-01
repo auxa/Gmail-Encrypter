@@ -38,22 +38,26 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 		first = ten.indexOf("</div><div") ;
 		ten = ten.substring(0, first);
 		ten = ten.replace(/<wbr>/g, "/");
-
+		var vello;
 		var message = ten;
 		//var Decrypt = cryptico.decrypt(message, MattsRSAkey);
+
 	var canDe =-1	//check if the email is actually encrpyed and we have the key to unlock it
 		for(var i =0; i< resp.keys.length; i++){
 			if(resp.keys[i] != null && resp.keys[i].id == senderEmail){
 				console.log('getting key for '+ resp.keys[i].id);
-				publicKey = resp.keys[i].pub_key;
-				console.log('logging publicKeyString ' + publicKey);
+				vello = resp.keys[i].pri_key;
+				console.log('logging private key ' + vello);
 				canDe =1;
 				break;
 			}
 		}
+		var Bits = 1024;
+		var myRSA = cryptico.generateRSAKey(vello, Bits);
+		console.log(myRSA);
 		var ans;
 		if(canDe =1){
-			 ans = cryptico.decrypt(message, publicKey);
+			 ans = cryptico.decrypt(message, myRSA);
 		}
 
 
