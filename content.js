@@ -1,17 +1,18 @@
-var xhr = new XMLHttpRequest();
-var resp;
-	xhr.open("GET", "http://localhost/keys.json", true);
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4) {
-			// innerText does not let the attacker inject HTML elements.
-			 resp = JSON.parse(xhr.responseText);
-		}
-	}
-	xhr.send();
+
 
 InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 
 	sdk.Conversations.registerThreadViewHandler(function(threadView){
+		var xhr = new XMLHttpRequest();
+		var resp;
+			xhr.open("GET", "http://localhost/keys.json", true);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4) {
+					// innerText does not let the attacker inject HTML elements.
+					 resp = JSON.parse(xhr.responseText);
+				}
+			}
+			xhr.send();
 		var body = '';
 		var sender ='';
 		var xer;
@@ -79,12 +80,23 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 
 		// a compose view has come into existence, do something with it!
 		composeView.addButton({
+			var xhr = new XMLHttpRequest();
+			var resp;
+				xhr.open("GET", "http://localhost/keys.json", true);
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4) {
+						// innerText does not let the attacker inject HTML elements.
+						 resp = JSON.parse(xhr.responseText);
+					}
+				}
+				xhr.send();
 			title: "Encrypt",
 			iconUrl: 'https://cdn1.iconfinder.com/data/icons/hawcons/32/698630-icon-114-lock-128.png',
 			onClick: function(event) {
 				var receiver =composeView.getToRecipients();
 				console.log(receiver[0].emailAddress);
 				var pubKey;
+				var senderEmail = sdk.User.getEmailAddress();
 
 				for(var i =0; i< resp.keys.length; i++){
 					if(resp.keys[i] != null && resp.keys[i].id == receiver[0].emailAddress){
@@ -94,9 +106,19 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 						break;
 					}
 				}
+				var priKey;
+				for(var i =0; i< resp.keys.length; i++){
+					if(resp.keys[i] != null && resp.keys[i].id == senderEmail){
+						console.log('logging id '+ resp.keys[i].id);
+						priKey = resp.keys[i].pri_key;
+						console.log('logging publicKeyString ' +priKey);
+						break;
+					}
+				}
+
 				// The length of the RSA key, in bits.
-			//	var Bits = 1024;
-				//var MattsRSAkey = cryptico.generateRSAKey(PassPhrase, Bits);
+				var Bits = 1024;
+				var myRSA1 = cryptico.generateRSAKey(priKey, Bits);
 				//console.log(MattsRSAkey);
 				//var MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
 				//console.log(MattsPublicKeyString);
@@ -105,21 +127,12 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 			//	console.log(receiver);
 
 
-				var EncryptionResult = cryptico.encrypt(message, pubKey);
+				var EncryptionResult = cryptico.encrypt(message, pubKey, myRSA1);
 
 				event.composeView.setBodyText(EncryptionResult.cipher);
 
 			},
 		});
-		composeView.addButton({
-			title: "Decrypt",
-			iconUrl: 'https://cdn3.iconfinder.com/data/icons/web-and-internet-icons/512/Unlock-512.png',
-			onClick: function(event) {
-
-
-								console.log(Decrypt);
-							},
-						});
 	});
 
 });
