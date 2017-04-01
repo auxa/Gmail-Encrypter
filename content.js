@@ -1,27 +1,27 @@
-
+var xhr = new XMLHttpRequest();
+var resp;
+	xhr.open("GET", "http://localhost/keys.json", true);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4) {
+			 resp = JSON.parse(xhr.responseText);
+		}
+	}
+	xhr.send();
 
 InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 
 	sdk.Conversations.registerThreadViewHandler(function(threadView){
-		var xhr = new XMLHttpRequest();
-		var resp;
-			xhr.open("GET", "http://localhost/keys.json", true);
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4) {
-					// innerText does not let the attacker inject HTML elements.
-					 resp = JSON.parse(xhr.responseText);
-				}
-			}
-			xhr.send();
 		var body = '';
-		var sender ='';
 		var xer;
 		var el = document.createElement("div");
 		 xer = threadView.getMessageViews();
 
-		console.log(xer[0].getSender());
-		var senderEmail = sdk.User.getEmailAddress();
-		console.log(sender);
+		var sender =xer[0].getSender();
+
+		var receiverEmail = sdk.User.getEmailAddress();
+		var senderEmail =sender.emailAddress;
+
+		console.log(senderEmail);
 
 		console.log(xer[0].getBodyElement());
 		var bob123 = xer[0].getBodyElement();
@@ -36,11 +36,10 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 		var vello;
 		var message = ten;
 		console.log(message);
-		//var Decrypt = cryptico.decrypt(message, MattsRSAkey);
 
 	var canDe =-1	//check if the email is actually encrpyed and we have the key to unlock it
 		for(var i =0; i< resp.keys.length; i++){
-			if(resp.keys[i] != null && resp.keys[i].id == senderEmail){
+			if(resp.keys[i] != null && resp.keys[i].id == receiverEmail){
 				console.log('getting key for '+ resp.keys[i].id);
 				vello = resp.keys[i].pri_key;
 				console.log('logging private key ' + vello);
@@ -50,46 +49,31 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 				break;
 			}
 		}
-		var Bits = 1024;
 
-		//var MattsRSAkey = cryptico.generateRSAKey(vello, Bits);
-		var myRSA = cryptico.generateRSAKey("Passphrase", Bits);
-			var MattsPublicKeyString = cryptico.publicKeyString(myRSA);
-			console.log(MattsPublicKeyString);
 			var ans;
-		if(canDe =1){
+		if(canDe ===1){
+			var Bits = 1024;
+			var myRSA = cryptico.generateRSAKey(vello, Bits);
+				var MattsPublicKeyString = cryptico.publicKeyString(myRSA);
+				console.log(MattsPublicKeyString);
 			console.log(message)
 			 ans = cryptico.decrypt(message, myRSA);
 			 console.log(ans);
+			 el.innerHTML = 'Decrypted Message: <br> <br>' + ans.plaintext + '<br> <br> The Message was ' + ans.signature;
+
+		}else{
+			el.innerHTML = 'Access Denied: Consult Session Manager';
+
 		}
-
-
-		el.innerHTML = 'Decrypted Message: <br> <br>' + ans.plaintext + '<br> <br> The Message was ' + ans.signature;
 		threadView.addSidebarContentPanel({
 			title: 'Decrypt',
 			el: el
 		});
-
-
-
-
 	});
 
-	// the SDK has been loaded, now do something with it!
 	sdk.Compose.registerComposeViewHandler(function(composeView){
 
-		// a compose view has come into existence, do something with it!
 		composeView.addButton({
-			var xhr = new XMLHttpRequest();
-			var resp;
-				xhr.open("GET", "http://localhost/keys.json", true);
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4) {
-						// innerText does not let the attacker inject HTML elements.
-						 resp = JSON.parse(xhr.responseText);
-					}
-				}
-				xhr.send();
 			title: "Encrypt",
 			iconUrl: 'https://cdn1.iconfinder.com/data/icons/hawcons/32/698630-icon-114-lock-128.png',
 			onClick: function(event) {
@@ -116,16 +100,11 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 					}
 				}
 
-				// The length of the RSA key, in bits.
 				var Bits = 1024;
+
 				var myRSA1 = cryptico.generateRSAKey(priKey, Bits);
-				//console.log(MattsRSAkey);
-				//var MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
-				//console.log(MattsPublicKeyString);
 
 				var message = composeView.getTextContent();
-			//	console.log(receiver);
-
 
 				var EncryptionResult = cryptico.encrypt(message, pubKey, myRSA1);
 
