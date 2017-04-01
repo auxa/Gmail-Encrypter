@@ -25,6 +25,9 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 			el: el
 		});
 		console.log(xer[0].getSender());
+		var senderEmail = sdk.User.getEmailAddress();
+		console.log(sender);
+
 		console.log(xer[0].getBodyElement());
 		var bob123 = xer[0].getBodyElement();
 		var ten = bob123.innerHTML;
@@ -34,15 +37,27 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 
 		first = ten.indexOf("</div><div") ;
 		ten = ten.substring(0, first);
+		ten = ten.replace(/<wbr>/g, "/");
 
 		var message = ten;
-		var Decrypt = cryptico.decrypt(message, MattsRSAkey);
-		event.composeView.setBodyText(Decrypt.plaintext);
-		console.log(first);
+		//var Decrypt = cryptico.decrypt(message, MattsRSAkey);
+	var canDe =-1	//check if the email is actually encrpyed and we have the key to unlock it
+		for(var i =0; i< resp.keys.length; i++){
+			if(resp.keys[i] != null && resp.keys[i].id == senderEmail){
+				console.log('getting key for '+ resp.keys[i].id);
+				publicKey = resp.keys[i].pub_key;
+				console.log('logging publicKeyString ' + publicKey);
+				canDe =1;
+				break;
+			}
+		}
+		var ans;
+		if(canDe =1){
+			 ans = cryptico.decrypt(message, publicKey);
+		}
 
 
-
-		console.log(ten);
+		console.log(ans);
 
 
 	});
@@ -58,6 +73,7 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 				var receiver =composeView.getToRecipients();
 				console.log(receiver[0].emailAddress);
 				var PassPhrase = "";
+
 				for(var i =0; i< resp.keys.length; i++){
 					if(resp.keys[i] != null && resp.keys[i].id == receiver[0].emailAddress){
 						console.log('logging id '+ resp.keys[i].id);
@@ -67,17 +83,17 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 					}
 				}
 				// The length of the RSA key, in bits.
-				var Bits = 1024;
-				var MattsRSAkey = cryptico.generateRSAKey(PassPhrase, Bits);
-				console.log(MattsRSAkey);
-				var MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+			//	var Bits = 1024;
+				//var MattsRSAkey = cryptico.generateRSAKey(PassPhrase, Bits);
+				//console.log(MattsRSAkey);
+				//var MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+				//console.log(MattsPublicKeyString);
 
 				var message = composeView.getTextContent();
-				console.log(receiver);
+			//	console.log(receiver);
 
 
-
-				var EncryptionResult = cryptico.encrypt(message, MattsPublicKeyString, MattsRSAkey);
+				var EncryptionResult = cryptico.encrypt(message, PassPhrase);
 
 				event.composeView.setBodyText(EncryptionResult.cipher);
 

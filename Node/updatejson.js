@@ -36,13 +36,14 @@ rl.on('line', (line) =>{
         database : 'email'
       });
       mysqlConnection.connect();
-    mysqlConnection.query('SELECT public_key from user WHERE email = "'+ line.trim() + '"', function(err, rows, fields) {
+    mysqlConnection.query('SELECT * from user WHERE email = "'+ line.trim() + '"', function(err, rows, fields) {
       if(err) throw err;
       if(rows.length != 1){
         console.log("user does not exist. Check email " + line.trim() + " or consult database");
       }else{
         console.log(rows[0].public_key);
         var pub_key = rows[0].public_key;
+        var private_key = rows[0].private_key;
         console.log(`working on ' + ${line.trim()}`);
   			fs.readFile('C:/MAMP/htdocs/keys.json', 'utf-8', function(err, data){
   				if(err) throw err;
@@ -60,7 +61,7 @@ rl.on('line', (line) =>{
   				 }
            if(testing != 0){
   					 file.keys.push({
-  					 id: line.trim(), pub_key: pub_key
+  					 id: line.trim(), pub_key: pub_key, pri_key: private_key
   				 });
   				 }
   			fs.writeFile('C:/MAMP/htdocs/keys.json', JSON.stringify(file), 'utf-8', function(err){
@@ -74,7 +75,6 @@ rl.on('line', (line) =>{
     mysqlConnection.end();
 			break;
 	}
-	rl.prompt();
 }).on('close', () =>{
 	console.log('Close connection');
 })
