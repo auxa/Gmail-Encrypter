@@ -18,6 +18,21 @@ rl.on('line', (line) =>{
 			break;
     case 'end session':
         console.log("ending session");
+
+        fs.readFile('C:/MAMP/htdocs/keys.json', 'utf-8', function(err, data){
+          if(err) throw err;
+          var file = JSON.parse(data);
+           console.log(file1);
+
+         for(i =0; i< file.keys.length; i++){
+            if(file.keys[i] != null){
+              delete file.keys[i];
+              testing =0;
+              break;
+            }
+         }
+   });
+
     break;
     case 'members':
     fs.readFile('C:/MAMP/htdocs/keys.json', 'utf-8', function(err, data){

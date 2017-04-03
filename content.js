@@ -99,7 +99,7 @@ InboxSDK.load('2', 'sdk_auxaE_cc24e4dfd8').then(function(sdk){
 						break;
 					}
 				}
-
+				console.log(resp);
 				var Bits = 1024;
 
 				var myRSA1 = cryptico.generateRSAKey(priKey, Bits);
